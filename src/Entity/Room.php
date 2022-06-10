@@ -48,9 +48,15 @@ class Room
      */
     private $tips;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="room")
+     */
+    private $games;
+
     public function __construct()
     {
         $this->tips = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,6 +112,36 @@ class Room
             // set the owning side to null (unless already changed)
             if ($tip->getRoom() === $this) {
                 $tip->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getRoom() === $this) {
+                $game->setRoom(null);
             }
         }
 
