@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TipRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -29,7 +31,7 @@ class Tip
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"tips:read", "tips:write", "rooms:read"})
+     * @Groups({"tips:read", "tips:write", "rooms:read", "tipgiven:read", "games:read"})
      */
     private $description;
 
@@ -38,6 +40,16 @@ class Tip
      * @Groups({"tips:read"})
      */
     private $room;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TipGiven::class, mappedBy="tip")
+     */
+    private $tipsGiven;
+
+    public function __construct()
+    {
+        $this->tipsGiven = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -64,6 +76,36 @@ class Tip
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TipGiven>
+     */
+    public function getTipsGiven(): Collection
+    {
+        return $this->tipsGiven;
+    }
+
+    public function addTipsGiven(TipGiven $tipsGiven): self
+    {
+        if (!$this->tipsGiven->contains($tipsGiven)) {
+            $this->tipsGiven[] = $tipsGiven;
+            $tipsGiven->setTip($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTipsGiven(TipGiven $tipsGiven): self
+    {
+        if ($this->tipsGiven->removeElement($tipsGiven)) {
+            // set the owning side to null (unless already changed)
+            if ($tipsGiven->getTip() === $this) {
+                $tipsGiven->setTip(null);
+            }
+        }
 
         return $this;
     }

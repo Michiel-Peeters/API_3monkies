@@ -31,7 +31,7 @@ class Room
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"rooms:read", "rooms:write", "tips:read", "games:read"})
+     * @Groups({"rooms:read", "rooms:write", "tips:read", "games:read", "tipgiven:read"})
      */
     private $name;
 
