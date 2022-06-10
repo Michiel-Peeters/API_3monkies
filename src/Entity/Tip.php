@@ -29,7 +29,7 @@ class Tip
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"tips:read", "tips:write"})
+     * @Groups({"tips:read", "tips:write", "rooms:read"})
      */
     private $description;
 

@@ -31,13 +31,13 @@ class Difficulty {
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"difficulties:read","difficulties:write", "rooms:read"})
+     * @Groups({"difficulties:read","difficulties:write", "rooms:read", "games:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"difficulties:read", "difficulties:write","rooms:read"})
+     * @Groups({"difficulties:read", "difficulties:write","rooms:read", "games:read"})
      */
     private $maxTime;
 

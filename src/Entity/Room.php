@@ -31,14 +31,14 @@ class Room
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"rooms:read", "rooms:write", "tips:read"})
+     * @Groups({"rooms:read", "rooms:write", "tips:read", "games:read"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=Difficulty::class, inversedBy="rooms")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"rooms:read", "rooms:write"})
+     * @Groups({"rooms:read", "rooms:write", "games:read"})
      */
     private $difficulty;
 
