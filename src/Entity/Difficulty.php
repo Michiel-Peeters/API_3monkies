@@ -7,27 +7,37 @@ use App\Repository\DifficultyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={
+ *          "groups"={"difficulties:read"},
+ *          "enable_max_depth"=true
+ *     },
+ *      denormalizationContext={
+ *     "groups"={"difficulties:write"}
+ *     })
  * @ORM\Entity(repositoryClass=DifficultyRepository::class)
  */
-class Difficulty
-{
+class Difficulty {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"difficulties:read", "rooms:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"difficulties:read","difficulties:write", "rooms:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"difficulties:read", "difficulties:write","rooms:read"})
      */
     private $maxTime;
 
@@ -36,35 +46,29 @@ class Difficulty
      */
     private $rooms;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->rooms = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getMaxTime(): ?int
-    {
+    public function getMaxTime(): ?int {
         return $this->maxTime;
     }
 
-    public function setMaxTime(int $maxTime): self
-    {
+    public function setMaxTime(int $maxTime): self {
         $this->maxTime = $maxTime;
 
         return $this;
@@ -73,13 +77,11 @@ class Difficulty
     /**
      * @return Collection<int, Room>
      */
-    public function getRooms(): Collection
-    {
+    public function getRooms(): Collection {
         return $this->rooms;
     }
 
-    public function addRoom(Room $room): self
-    {
+    public function addRoom(Room $room): self {
         if (!$this->rooms->contains($room)) {
             $this->rooms[] = $room;
             $room->setDifficulty($this);
@@ -88,15 +90,15 @@ class Difficulty
         return $this;
     }
 
-    public function removeRoom(Room $room): self
-    {
+    public function removeRoom(Room $room): self {
         if ($this->rooms->removeElement($room)) {
             // set the owning side to null (unless already changed)
             if ($room->getDifficulty() === $this) {
-                $room->setDifficulty(null);
+                $room->setDifficulty(NULL);
             }
         }
 
         return $this;
     }
+
 }
