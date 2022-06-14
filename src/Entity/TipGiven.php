@@ -28,13 +28,6 @@ class TipGiven
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tip::class, inversedBy="tipsGiven")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"tipgiven:read", "games:read"})
-     */
-    private $tip;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="tipsGiven")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"tipgiven:read"})
@@ -47,21 +40,14 @@ class TipGiven
      */
     private $sendTime;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTip(): ?Tip
-    {
-        return $this->tip;
-    }
-
-    public function setTip(?Tip $tip): self
-    {
-        $this->tip = $tip;
-
-        return $this;
     }
 
     public function getGame(): ?Game
@@ -84,6 +70,18 @@ class TipGiven
     public function setSendTime(\DateTimeInterface $sendTime): self
     {
         $this->sendTime = $sendTime;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

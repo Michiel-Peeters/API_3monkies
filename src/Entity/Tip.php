@@ -41,10 +41,6 @@ class Tip
      */
     private $room;
 
-    /**
-     * @ORM\OneToMany(targetEntity=TipGiven::class, mappedBy="tip")
-     */
-    private $tipsGiven;
 
     public function __construct()
     {
@@ -76,36 +72,6 @@ class Tip
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, TipGiven>
-     */
-    public function getTipsGiven(): Collection
-    {
-        return $this->tipsGiven;
-    }
-
-    public function addTipsGiven(TipGiven $tipsGiven): self
-    {
-        if (!$this->tipsGiven->contains($tipsGiven)) {
-            $this->tipsGiven[] = $tipsGiven;
-            $tipsGiven->setTip($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTipsGiven(TipGiven $tipsGiven): self
-    {
-        if ($this->tipsGiven->removeElement($tipsGiven)) {
-            // set the owning side to null (unless already changed)
-            if ($tipsGiven->getTip() === $this) {
-                $tipsGiven->setTip(null);
-            }
-        }
 
         return $this;
     }
