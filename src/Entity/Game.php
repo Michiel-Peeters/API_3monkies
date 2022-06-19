@@ -50,7 +50,7 @@ class Game {
     private $startDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Groups({"games:read", "games:write"})
      */
     private $endDate;
@@ -60,6 +60,24 @@ class Game {
      * @Groups({"games:read"})
      */
     private $tipsGiven;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"games:read", "games:write"})
+     */
+    private $currentTip;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"games:read", "games:write"})
+     */
+    private $seconds;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Groups({"games:read", "games:write"})
+     */
+    private $active;
 
     public function __construct()
     {
@@ -136,6 +154,42 @@ class Game {
                 $tipsGiven->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCurrentTip(): ?string
+    {
+        return $this->currentTip;
+    }
+
+    public function setCurrentTip(?string $currentTip): self
+    {
+        $this->currentTip = $currentTip;
+
+        return $this;
+    }
+
+    public function getSeconds(): ?int
+    {
+        return $this->seconds;
+    }
+
+    public function setSeconds(?int $seconds): self
+    {
+        $this->seconds = $seconds;
+
+        return $this;
+    }
+
+    public function getActive(): ?int
+    {
+        return $this->active;
+    }
+
+    public function setActive(int $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

@@ -25,7 +25,7 @@ class Room
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"rooms:read", "tips:read"})
+     * @Groups({"rooms:read", "tips:read", "games:read"})
      */
     private $id;
 
