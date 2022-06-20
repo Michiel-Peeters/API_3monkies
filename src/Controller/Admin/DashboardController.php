@@ -23,10 +23,20 @@ class DashboardController extends AbstractDashboardController {
      */
     public function index(): Response {
 
-        $allGames = $this->dbManager->getSQL("select * from game where active=0");
+        $allGames = $this->dbManager->getSQL("select room_id, r.name, active
+from game
+inner join room r on game.room_id = r.id where active = 0");
+        $playedRooms = $this->dbManager->getSQL("select count(game.id) as games, r.name from game
+right join  room r on game.room_id = r.id
+group by r.name");
+        $allUsers = $this->dbManager->getSQL("select * from user");
+
 
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
           'games' => $allGames,
+          'playedRooms' => $playedRooms,
+          'users' => $allUsers,
+
         ]);
     }
 
@@ -37,7 +47,7 @@ class DashboardController extends AbstractDashboardController {
     }
 
     public function configureMenuItems(): iterable {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Overview', 'fa fa-bar-chart');
         yield MenuItem::section("Escape Rooms");
         yield MenuItem::subMenu('Rooms', 'fa fa-building')
           ->setSubItems([

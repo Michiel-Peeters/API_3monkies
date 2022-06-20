@@ -1,17 +1,65 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title 'Welkom op de 3Monkies Dasboard' %}
+{% block content_title '' %}
 
 {% block main %}
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <h2>Total Games played</h2>
-            </div>
-            <div class="col-6">
-                <h3>{{ games|length }}</h3>
-            </div>
+    <style>
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            padding-right: 50px;
+        }
+
+        .card p, .room p {
+            font-size: 40px;
+        }
+
+        .rooms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 50px;
+        }
+
+        .room {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            border: 1px solid lightgray;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+    {#    {{ games|filter((v) => v.name == "Hora Amoris")|length }} #}
+    <div class="cards">
+        <div class="card">
+            <h2>Total Games played</h2>
+            <p>{{ games|length }}</p>
+        </div>
+        <div class="rooms">
+            {% for playedRoom in playedRooms %}
+                <div class="room">
+                    <h2>{{ playedRoom.name }}</h2>
+                    <p>{{ playedRoom.games }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="card">
+            <h2>Total Users</h2>
+            <p>{{ users|length }}</p>
         </div>
     </div>
 {% endblock %}
