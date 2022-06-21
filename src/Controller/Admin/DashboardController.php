@@ -26,9 +26,12 @@ class DashboardController extends AbstractDashboardController {
         $allGames = $this->dbManager->getSQL("select room_id, r.name, active
 from game
 inner join room r on game.room_id = r.id where active = 0");
+
         $playedRooms = $this->dbManager->getSQL("select count(game.id) as games, r.name from game
 right join  room r on game.room_id = r.id
-group by r.name");
+group by r.name
+order by games desc");
+
         $allUsers = $this->dbManager->getSQL("select * from user");
 
 
