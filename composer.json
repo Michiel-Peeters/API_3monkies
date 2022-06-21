@@ -85,7 +85,8 @@
         "symfony": {
             "allow-contrib": false,
             "require": "5.4.*"
-        }
+        },
+        "public-dir": ".."
     },
     "require-dev": {
         "symfony/debug-bundle": "5.4.*",
