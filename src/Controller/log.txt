@@ -1,0 +1,2 @@
+ik ben in de formsubmit
+ik ben in de emailConfirmation https://wdev2.be/fs_michiel/eindwerk/verify/email?expires=1655982583&id=12&signature=sJurXJmAPuj9HPvJFQopD8jIOrTwCx0Z0SBe2blQKtw%3D&token=35aYn%2BDHG%2Fd0Fhvl5nCLdsSF4HrJKbP6yGSvr8kJSX4%3D

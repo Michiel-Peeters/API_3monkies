@@ -2,7 +2,9 @@
 
 namespace App\Security;
 
+use App\services\Logger;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -15,16 +17,25 @@ class EmailVerifier
     private $verifyEmailHelper;
     private $mailer;
     private $entityManager;
+    private $logger;
 
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
+    public function __construct(VerifyEmailHelperInterface $helper,
+                                MailerInterface $mailer,
+                                EntityManagerInterface $manager,
+                                Logger $logger)
     {
         $this->verifyEmailHelper = $helper;
         $this->mailer = $mailer;
         $this->entityManager = $manager;
+        $this->logger = $logger;
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
+    public function sendEmailConfirmation(string $verifyEmailRouteName,
+                                          UserInterface $user, TemplatedEmail
+                                          $email): void
     {
+
+
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             $user->getId(),
@@ -34,6 +45,7 @@ class EmailVerifier
 
         $context = $email->getContext();
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
+        $this->logger->Log("ik ben in de emailConfirmation " . $context['signedUrl']);
         $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
@@ -45,10 +57,12 @@ class EmailVerifier
     /**
      * @throws VerifyEmailExceptionInterface
      */
-    public function handleEmailConfirmation(Request $request, UserInterface $user): void
+    public function handleEmailConfirmation(Request $request, UserInterface
+    $user): void
     {
+        $this->logger->Log("ik ben in de mailconfirm");
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
-
+        $this->logger->Log("ik ben in de mailconfirm 2");
         $user->setIsVerified(true);
 
         $this->entityManager->persist($user);

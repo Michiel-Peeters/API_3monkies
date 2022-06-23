@@ -42,6 +42,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: '/register', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: '/login', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: '/verify/email', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: '/api/rooms', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: '/api/games', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: '/api', roles: [ ROLE_ADMIN ] }

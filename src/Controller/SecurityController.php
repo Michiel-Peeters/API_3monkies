@@ -6,13 +6,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController {
+
     /**
      * @Route("/login_check", name="login_check", methods={"POST"})
      */
-    public function login()
-    {
+    public function login() {
         return $this->json([
-          'user' => $this->getUser() ? $this->getUser()->getId() : null,
+          "id" => $this->getUser()->getId(),
+          "email" => $this->getUser()->getUserIdentifier(),
+          "roles" => $this->getUser()->getRoles(),
+          "firstName" => $this->getUser()->getFirstName(),
+          "lastName" => $this->getUser()->getLastName(),
         ]);
     }
 

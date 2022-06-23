@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="fs_michiel_ew" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
-    <serverData>
-      <paths name="fs_michiel_ew">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/eindwerk/system" local="$PROJECT_DIR$" web="/eindwerk" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
-            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
-            <excludedPath local="true" path="$PROJECT_DIR$/composer.json" />
-            <excludedPath local="true" path="$PROJECT_DIR$/var" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
-    </serverData>
+  <component name="PublishConfigData" autoUpload="On explicit save action" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
     <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>

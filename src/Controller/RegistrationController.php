@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\services\Logger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
+    private $logger;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, Logger $logger)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->logger = $logger;
     }
 
     /**
@@ -35,6 +38,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->logger->Log("ik ben in de formsubmit");
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -69,17 +73,22 @@ class RegistrationController extends AbstractController
      */
     public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
     {
+        $this->logger->Log("in verifyuseremail");
         $id = $request->get('id');
 
         if (null === $id) {
+            $this->logger->Log("id niet gevonden");
             return $this->redirectToRoute('app_register');
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
+            $this->logger->Log("user niet gevonden");
             return $this->redirectToRoute('app_register');
         }
+
+        $this->logger->Log("naar emailverifier");
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
