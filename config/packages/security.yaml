@@ -11,6 +11,19 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        login:
+            pattern: ^/api/login_check
+            stateless: true
+            json_login:
+                check_path: /api/login_check # or api_login_check as defined in config/routes.yaml
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        api:
+            pattern: ^/api
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -42,10 +55,11 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: '/register', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: '/login', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path : '^/api/login_check', roles : IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '/verify/email', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: '/api/rooms', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: '/api/games', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: '/api', roles: [ ROLE_ADMIN ] }
+        - { path: '/api/rooms', roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: '/api/games', roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path : '^/api', roles : IS_AUTHENTICATED_FULLY }
         - { path: '/', roles: [ IS_AUTHENTICATED_FULLY, ROLE_USER ] }
 
 

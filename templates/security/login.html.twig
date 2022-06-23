@@ -3,40 +3,106 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+        body{
+            background: #0d5aa7;
+        }
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        .container__small {
+            margin: 0 auto;
+            max-width: 500px;
+            width: 98%;
+            min-height: 100px;
+        }
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        h1 {
+            color: #409AA9;
+        }
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+        .login__form {
+            background-color: #f1faee;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            margin: 20vh auto;
+            height: 500px;
+            border-radius: 10px;
+            box-shadow: 7px 7px rgb(178, 182, 183);
+        }
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
+        .login__form__input {
+            width: 70%;
+            height: 40px;
+            font-size: 20px;
+            padding: 10px;
+            border: none;
+            background-color: transparent;
+            border-bottom: 2px solid #409AA9;
+            outline: none;
+        }
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        .login__form__button {
+            height: 40px;
+            text-decoration: none;
+            font-size: 20px;
+            min-width: 200px;
+            border-radius: 20px;
+            border: none;
+            align-self: flex-end;
+            background-color: #FFC300;
+            color: #f1faee;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 500ms;
+
+        }
+
+        .login__form__button:hover {
+            background-color: #FFD60A;
+            box-shadow: 5px 5px rgb(178, 182, 183);
+        }
+
+    </style>
+
+    <div class="container__small">
+        <form method="post" class="login__form">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            <h1 class="h3 mb-3 font-weight-normal">Admin Login</h1>
+            {#            <label for="inputEmail">Email</label> #}
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="Email"
+                   class="form-control login__form__input"
+                   autocomplete="email" required autofocus>
+            {#            <label for="inputPassword">Password</label> #}
+            <input type="password" name="password" id="inputPassword" placeholder="Wachtwoord"
+                   class="form-control login__form__input"
+                   autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button class="btn btn-lg btn-primary login__form__button" type="submit">
+                Log in!
+            </button>
+        </form>
+    </div>
+
+
+
+
 {% endblock %}
