@@ -57,9 +57,10 @@ security:
         - { path: '/login', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path : '^/api/login_check', roles : IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '/verify/email', roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path : '/api', roles : IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '/api/rooms', roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: '/api/games', roles: [ IS_AUTHENTICATED_FULLY ] }
-        - { path : '^/api', roles : IS_AUTHENTICATED_FULLY }
+        - { path : '/admin', roles : ROLE_ADMIN }
         - { path: '/', roles: [ IS_AUTHENTICATED_FULLY, ROLE_USER ] }
 
 
